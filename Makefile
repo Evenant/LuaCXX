@@ -11,7 +11,12 @@ build: ${OUTPUT}
 test: ${OUTPUT} ${LIBLUA} 
 	cd tests && $(MAKE) \
 		OUTPUT=${OUTPUT} \
-		LIBLUA=${LIBLUA}
+		LIBLUA=${LIBLUA} \
+		LIBLUACXX=${OUTPUT}
+
+clean:
+	cd src && $(MAKE) clean
+	cd tests && $(MAKE) clean
 
 .PHONY: default build test
 

@@ -1,31 +1,75 @@
 #include "lua_i.hpp"
 #include "../LuaCXX.hpp"
 #include <cstddef>
+#include <lua.h>
 #include <vector>
 
 using namespace LuaCXX;
 
+static void clone_values(lua_State* L, int from, int to)
+{
+	lua_pushnil(L);  /* first key */
+    while (lua_next(L, from) != 0) {
+		constexpr int key = -2;
+		constexpr int value = -1;
+
+
+
+		if (lua_isstring(L, key))
+		{
+			const char* key_s = lua_tostring(L, key);
+			lua_getfield(L, from, key_s);
+			lua_setfield(L, to, key_s);
+
+			lua_pushstring(L, key_s);
+			lua_insert(L, key);
+
+		}
+		
+    	lua_pop(L, 1);
+    }
+
+	for (int i = 0; i < lua_objlen(L, from);i++)
+	{
+		lua_rawgeti(L, from, i+1);
+		lua_rawseti(L, to, i+1);
+	}
+}
+
 void LuaTable::add_field()
 {
 	this->field_count++;
-	lua_createtable(*this->L, this->index_count, this->field_count);
+	lua_createtable(this->L, this->index_count, this->field_count);
 
+	int new_table = lua_gettop(this->L);
 
+	clone_values(this->L, this->table_position, new_table);
+
+	lua_insert(this->L, this->table_position);
+	lua_settop(this->L, this->table_position);
 
 }
 
 void LuaTable::add_index()
 {
+	this->index_count++;
+	lua_createtable(this->L, this->index_count, this->field_count);
 
+	int new_table = lua_gettop(this->L);
+
+	clone_values(this->L, this->table_position, new_table);
+
+	lua_insert(this->L, this->table_position);
+	lua_settop(this->L, this->table_position);
 }
 
-LuaTable::LuaTable(ptr<Lua> L, int fields, int indexes)
+LuaTable::LuaTable(lua_State* L, int fields, int indexes)
 {
 	this->L = L;
 	
-	lua_createtable(*this->L, indexes, fields);
+	lua_createtable(this->L, indexes, fields);
 
-	this->table_position = lua_gettop(*this->L);
+	this->table_position = lua_gettop(this->L);
 	this->index_count = indexes;
 	this->field_count = fields;
 }
@@ -37,7 +81,7 @@ LuaTable::LuaTable(std::nullptr_t n)
 
 LuaTable::~LuaTable()
 {
-
+	lua_close(this->L);
 }
 
 static LuaTable::Type _get_typeof(lua_State* L)
@@ -89,30 +133,30 @@ LuaTable::Type LuaTable::get_typeof(const char* field)
 {
 	if (this->is_null)
 		return Nil;
-	lua_getfield(this->L->get_rawstate(), this->table_position, field);
-	return _get_typeof(this->L->get_rawstate());
+	lua_getfield(this->L, this->table_position, field);
+	return _get_typeof(this->L);
 }
 LuaTable::Type LuaTable::get_typeof(int index)
 {
 	if (this->is_null)
 		return Nil;
-	lua_rawgeti(this->L->get_rawstate(), this->table_position, index);
-	return _get_typeof(this->L->get_rawstate());
+	lua_rawgeti(this->L, this->table_position, index);
+	return _get_typeof(this->L);
 }
 
 std::vector<const char*> LuaTable::get_all_fields()
 {
 	std::vector<const char*> ret;
 	/* table is in the stack at index 't' */
-    lua_pushnil(this->L->get_rawstate());  /* first key */
-    while (lua_next(this->L->get_rawstate(), this->table_position) != 0) {
+    lua_pushnil(this->L);  /* first key */
+    while (lua_next(this->L, this->table_position) != 0) {
 		constexpr int key = -2;
 		constexpr int value = -1;
 
-		if (lua_type(this->L->get_rawstate(), key) == LUA_TSTRING)
-			ret.push_back(lua_tostring(this->L->get_rawstate(), key));
+		if (lua_type(this->L, key) == LUA_TSTRING)
+			ret.push_back(lua_tostring(this->L, key));
 		
-    	lua_pop(this->L->get_rawstate(), 1);
+    	lua_pop(this->L, 1);
     }
 	return ret;
 
@@ -133,13 +177,13 @@ int LuaTable::array_size()
     	lua_pop(this->L->get_rawstate(), 1);
     }
 	*/
-	return lua_objlen(this->L->get_rawstate(), this->table_position);
+	return lua_objlen(this->L, this->table_position);
 }
 
 bool LuaTable::is_valid()
 {
 	if (this->is_null 
-	|| !lua_istable(this->L->get_rawstate(), this->table_position)
+	|| !lua_istable(this->L, this->table_position)
 	)
 		return false;
 	return true;

@@ -7,7 +7,7 @@ using namespace LuaCXX;
 
 LuaTable Lua::globals()
 {
-	LuaTable *gt = new LuaTable(this->new_thread());
+	LuaTable *gt = new LuaTable(*this->new_thread());
 	return *gt;
 }
 
@@ -64,7 +64,7 @@ LuaTable Lua::new_table()
 {
 	ptr<Lua> lua = this->new_thread();
 	
-	LuaTable *table = new LuaTable(lua);
+	LuaTable *table = new LuaTable(*lua);
 
 
 

@@ -1,4 +1,6 @@
 
+# Makefile for building LuaCXX directly.
+
 OUTPUT=libluacxx.a
 
 OBJECTS= \
@@ -31,7 +33,11 @@ help:
 	@cat help.txt
 	@echo
 
-.PHONY: default help
+clean:
+	rm -f ${OBJECTS}
+	rm -f ${OUTPUT}
+
+.PHONY: default help clean
 
 Lua.o: Lua.cpp
 	${cxx_o}
@@ -44,5 +50,5 @@ LuaTable_setget.o: LuaTable_setget.cpp
 
 # Custom macro for creating C++ object files
 define cxx_o
-	${CXX} $^ -o $@ ${CXXFLAGS} -c
+	${CXX} $< -o $@ ${CXXFLAGS} -c
 endef

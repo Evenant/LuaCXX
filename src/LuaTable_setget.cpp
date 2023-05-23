@@ -106,6 +106,7 @@ void LuaTable::set_string(int index, const char* value)
 	lua_rawseti(this->L->get_rawstate(), this->table_position, index);
 }
 
+/* TODO: Finish this
 LuaTable LuaTable::get_table(const char * field)
 {
 	if (this->get_typeof(field) != Table)
@@ -120,3 +121,4 @@ ptr<LuaTable> LuaTable::get_table(int index)
 {
 
 }
+*/

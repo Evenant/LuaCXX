@@ -188,8 +188,9 @@ namespace LuaCXX
 		std::vector<const char*> get_all_fields();
 		int array_size();
 
+		~LuaTable();
 		protected:
-		LuaTable(ptr<Lua> L, int fields=0, int indexes=0);
+		LuaTable(lua_State* L, int fields=0, int indexes=0);
 		LuaTable(std::nullptr_t);
 
 		void add_field();
@@ -199,13 +200,12 @@ namespace LuaCXX
 		int index_count = 0;
 
 		int table_position;
-		ptr<Lua> L;
+		lua_State* L;
 
 		private:
 		bool is_null = false;
 
 		LuaTable* parent_table;
-		~LuaTable();
 
 		int index=0;
 		const char* field=nullptr;
