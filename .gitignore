@@ -1,3 +1,7 @@
-# Build outpot
+# Test build output
+tests/*/*
+!tests/*/*.*
+
+# General Build outpot
 *.o
 *.a
