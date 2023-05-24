@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 	using namespace std;
 	TEST_START(1, 1, "SetGet Global Table");
 
-	lua_State* L = luaL_newstate();
 	{
 		LuaThread luat = LuaThread(L, true);
 
@@ -50,8 +49,5 @@ int main(int argc, char **argv)
 
 	}
 
-	lua_close(L);
-
 	TEST_END;
-	return 0;
 }

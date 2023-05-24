@@ -94,10 +94,13 @@
 #define TEST_START(test_num, test_num_out_of, message) \
 	constexpr int TEST_NUMBER = test_num; \
 	constexpr int TEST_NUMBER_OUT_OF = test_num_out_of; \
-	std::cout << TEST_INIT << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << ": " << message << CRESET << std::endl;
+	std::cout << TEST_INIT << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << ": " << message << CRESET << std::endl; \
+	lua_State* L = luaL_newstate();
 
 #define TEST_END \
-	std::cout << TEST_SUCCESS << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " ran Successfully" << CRESET << std::endl;
+	lua_close(L); \
+	std::cout << TEST_SUCCESS << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " ran Successfully" << CRESET << std::endl; \
+	return 0;
 
 
 
