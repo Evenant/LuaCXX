@@ -27,10 +27,8 @@ extern "C"
 namespace LuaCXX
 {
 
-	typedef class Lua Lua;
 	typedef class LuaRef LuaRef;
 	typedef class LuaTable LuaTable;
-	typedef class LuaGTable LuaGTable;
 	typedef class LuaThread LuaThread;
 
 	enum Type
@@ -53,7 +51,6 @@ namespace LuaCXX
 	 */
 	class LuaRef
 	{
-		friend Lua;
 		public:
 
 		void move_into(lua_State* thread);
