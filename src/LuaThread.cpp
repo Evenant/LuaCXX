@@ -29,8 +29,5 @@ lua_State* LuaThread::get_lua()
 
 LuaTable LuaThread::globals()
 {
-	std::cout << "Before getting global table\n";
-	lua_getglobal(this->value_thread, "_G");
-	std::cout << "After getting global table\n";
 	return LuaTable(this->value_thread, false, LUA_GLOBALSINDEX);
 }
