@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS= -std=gnu++17 -x c++
+CXXFLAGS= -std=gnu++17
 
 TESTING_HEADER=testing.hpp
 

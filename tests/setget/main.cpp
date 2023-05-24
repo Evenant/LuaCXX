@@ -5,6 +5,8 @@ extern "C"
 	#include "lauxlib.h"
 }
 
+#include <string.h>
+
 #include "../../LuaCXX.hpp"
 #include "../testing.hpp"
 
@@ -12,33 +14,44 @@ int main(int argc, char **argv)
 {
 	using namespace LuaCXX;
 	using namespace std;
-	TEST_START(1, 1, "Set global");
+	TEST_START(1, 1, "SetGet Global Table");
 
+	lua_State* L = luaL_newstate();
 	{
-		Lua lua = Lua(true);
+		LuaThread luat = LuaThread(L, true);
 
-		LuaTable lua_globals = lua.globals();
+		LuaTable gtable = luat.globals();
 
+		// Number
+		constexpr const char* keynum = "greater_than_5";
 
-		lua_globals.set_number("greater_than_5", 7.5);
+		gtable.set_number(keynum, 7.5);
+		double vn = gtable.get_number(keynum);
 
+		ASSERT((vn > 5), "The Lua global table key \"" << keynum << "\" is not greater than 5.");
+		
+		// Boolean
+		constexpr const char* keybool = "should_be_true";
 
+		gtable.set_bool(keybool, true);
+		bool vb = gtable.get_bool(keybool);
 
-		printf("Set the key \"greater_than_5\" in the global table to %f\n", 7.5);
-		double v = lua_globals.get_number("greater_than_5");
+		ASSERT((vb == true), "The Lua global table key \"" << keybool << "\" is not true.");
 
-		printf("Checking if the value of \"greater_than_5\" ( which is %f ) is greater than 5\n", v);
-		ASSERT((v > 5), "The Lua value is not greater than 5!");
+		// String
+		constexpr const char* keystring = "carcolor";
+		constexpr const char* curr_carcolor = "Red";
+		constexpr const char* wanted_carcolor = "Yellow";
 
-		printf("It is greater than 5!\n");
+		gtable.set_string(keystring, curr_carcolor);
+		const char* vs = gtable.get_string(keystring);
+
+		ASSERT((strcmp(vs, wanted_carcolor)), "I WANTED A \"" << wanted_carcolor << "\" CAR MOM! NOT A \"" << vs << "\"");
 
 	}
 
+	lua_close(L);
 
 	TEST_END;
-
-	/*
-		TODO: Stack Smashing Error occurs for here some reason, fix it.
-	*/
 	return 0;
 }

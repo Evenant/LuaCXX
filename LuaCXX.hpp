@@ -12,6 +12,13 @@
 #ifndef LUACXX_HPP
 #define LUACXX_HPP
 
+extern "C"
+{
+	#include "lua.h"
+	#include "lualib.h"
+	#include "lauxlib.h"
+}
+
 #include <cstddef>
 #include <memory>
 #include <vector>
@@ -19,103 +26,86 @@
 
 namespace LuaCXX
 {
-	#ifndef lua_h
-	typedef struct lua_State lua_State;
-	#endif
-	
-	template<typename T>
-	using ptr = std::shared_ptr<T>;
 
 	typedef class Lua Lua;
-	typedef class LuaValue LuaValue;
+	typedef class LuaRef LuaRef;
 	typedef class LuaTable LuaTable;
 	typedef class LuaGTable LuaGTable;
-	typedef LuaTable (*LuaFunction)(Lua &, LuaTable &); 
+	typedef class LuaThread LuaThread;
+
+	enum Type
+	{
+		Nil,
+		Number,
+		String,
+		Boolean,
+		Thread,
+		None,
+		Table,
+		Userdata,
+		LightUserdata,
+		Function
+	};
 
 	/**
-	 * @brief Represents a Lua thread.
+	 * Basic reference to a Lua value.
 	 * 
 	 */
-	class Lua
+	class LuaRef
 	{
+		friend Lua;
 		public:
 
+		void move_into(lua_State* thread);
 
+		~LuaRef();
 
-		bool is_null();
-
-		/**
-		 * @brief Construct a new Lua object.
-		 * 
-		 * @param openlibs Whether to enable the Lua standard library. ( recommended true )
-		 */
-		Lua(bool openlibs=true);
-
-		~Lua();
+		protected:
+		LuaRef(lua_State* th);
 
 		/**
-		 * @brief Gets the global table.
+		 * The Lua thread that contains this the value of this reference.
 		 * 
-		 * @return LuaTable 
 		 */
+		lua_State* thread;
+
+		/**
+		 * The position of the value in the stack of the Lua thread
+		 */
+		int position;
+	};
+
+	class LuaThread: public LuaRef
+	{
+		public:
+		/**
+		 * Create a thread ( or coroutine ) from an existing Lua state.
+		 * If `create_new_thread` is true, then `lua_newthread` is called directly to create
+		 * a new thread, otherwise it is assumed that there is already a thread on the top of the 
+		 * stack, and takes that instead.
+		 */
+		LuaThread(lua_State* th, bool create_new_thread=true);
+		operator lua_State*();
+		lua_State* get_lua();
+
 		LuaTable globals();
 
-		LuaTable new_table();
-		ptr<Lua> new_thread();
-
-		#ifdef lua_h
-
-		operator lua_State*();
-		
-		/**
-		 * @brief Construct a new Lua object from an existing `lua_State`
-		 * 
-		 * @param state 
-		 * @param is_thread 
-		 */
-		Lua(lua_State *state);
-		/**
-		 * @brief Get the raw `lua_State*` object.
-		 * 
-		 * @return lua_State*
-		 */
-		lua_State* get_rawstate();
-		#endif
-
-		private:
-		lua_State* state;
-		bool is_from_raw_state;
-		ptr<LuaTable> _new_table();
-		Lua* _new_thread();
-		std::vector<ptr<Lua>> sub_threads;
-
+		lua_State* value_thread;
 	};
 	/**
 	 * @brief Represents a handle to an internal Lua table.
 	 * 
 	 */
-	class LuaTable
+	class LuaTable : public LuaRef
 	{
 		public:
-		friend class Lua;
+		friend LuaThread;
 
 		/**
 		 * @brief Type of values this table can store.
 		 * 
 		 */
-		enum Type
-		{
-			Nil,
-			Number,
-			String,
-			Boolean,
-			Thread,
-			None,
-			Table,
-			Userdata,
-			LightUserdata,
-			Function
-		};
+		
 
 		/**
 		 * @brief If this handle still points to a table.
@@ -160,15 +150,13 @@ namespace LuaCXX
 		const char* get_string(int index);
 		void set_string(int index, const char* value);
 		
+		/*
 		LuaTable get_table(const char* field);
 		void set_table(const char* field, LuaTable & value);
 
 		LuaTable get_table(int index);
 		void set_table(int index, LuaTable & value);
 
-		
-
-		/*
 		ptr<Lua> get_thread(const char* field);
 		ptr<Lua> get_thread(int index);
 
@@ -188,10 +176,8 @@ namespace LuaCXX
 		std::vector<const char*> get_all_fields();
 		int array_size();
 
-		~LuaTable();
 		protected:
-		LuaTable(lua_State* L, int fields=0, int indexes=0);
-		LuaTable(std::nullptr_t);
+		LuaTable(lua_State* th, bool create_table, int table_position);
 
 		void add_field();
 		void add_index();
@@ -199,32 +185,15 @@ namespace LuaCXX
 		int field_count = 0;
 		int index_count = 0;
 
-		int table_position;
 		lua_State* L;
 
 		private:
 		bool is_null = false;
 
-		LuaTable* parent_table;
-
-		int index=0;
-		const char* field=nullptr;
 
 
 	};
 
-	/**
-	 * @brief Specifically made to represent the table of globals.
-	 * 
-	 */
-	class LuaGTable: public LuaTable
-	{
-		friend class Lua;
-		protected:
-		LuaGTable(Lua* L);
-		private:
-		~LuaGTable();
-	};
 }
 
 #endif
