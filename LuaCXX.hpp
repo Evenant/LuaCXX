@@ -123,7 +123,7 @@ namespace LuaCXX
 		 * @param field 
 		 * @return Type 
 		 */
-		Type get_typeof(const char* field);
+		Type get_type(const char* field);
 
 		/**
 		 * @brief Similar to `get_typeof(const char*)`.
@@ -131,7 +131,7 @@ namespace LuaCXX
 		 * @param index 
 		 * @return Type 
 		 */
-		Type get_typeof(int index);
+		Type get_type(int index);
 
 		bool get_bool(const char* field);
 		void set_bool(const char* field, bool value);

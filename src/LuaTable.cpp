@@ -82,7 +82,7 @@ LuaTable::LuaTable(lua_State* thread, bool create_table, int table_position, int
 
 
 
-static Type _get_typeof(lua_State* L)
+static Type _get_type(lua_State* L)
 {
 	Type t;
 
@@ -126,19 +126,19 @@ static Type _get_typeof(lua_State* L)
 	lua_pop(L, 1);
 	return t;
 }
-Type LuaTable::get_typeof(const char* field)
+Type LuaTable::get_type(const char* field)
 {
 	if (this->is_null)
 		return Nil;
 	lua_getfield(this->thread, this->position, field);
-	return _get_typeof(this->thread);
+	return _get_type(this->thread);
 }
-Type LuaTable::get_typeof(int index)
+Type LuaTable::get_type(int index)
 {
 	if (this->is_null)
 		return Nil;
 	lua_rawgeti(this->thread, this->position, index);
-	return _get_typeof(this->thread);
+	return _get_type(this->thread);
 }
 
 std::vector<const char*> LuaTable::get_all_fields()
