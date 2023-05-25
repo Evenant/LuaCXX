@@ -59,15 +59,22 @@ namespace LuaCXX
 
 		protected:
 		LuaRef(lua_State* th);
+		LuaRef(lua_State* th, int existing_value);
 
 		/*
 			The Lua thread that will be used by this reference for operations.
 		*/
 		lua_State* thread;
 		
-		
 		/*
-			The Lua registry is used to store references, and this unique pointer is used to identify a reference.
+			If a reference is used as way to perform operations on a lua value that
+			already exists in the stack, then this should be the position of that value in the stack.
+		*/
+		int position;
+
+		/*
+			The Lua registry is used to store references,
+			and this unique pointer is used to identify a reference.
 		*/
 		void* key;
 	};
@@ -86,8 +93,9 @@ namespace LuaCXX
 		lua_State* get_lua();
 
 		LuaTable globals();
+		LuaTable registry();
 
-		LuaTable new_table(int dict_size=-1, int array_size=-1);
+		LuaTable new_table();
 		LuaThread new_thread();
 		protected:
 
@@ -103,12 +111,6 @@ namespace LuaCXX
 		friend LuaThread;
 
 		/**
-		 * @brief Type of values this table can store.
-		 * 
-		 */
-		
-
-		/**
 		 * @brief If this handle still points to a table.
 		 * 
 		 * @return true
@@ -116,88 +118,30 @@ namespace LuaCXX
 		 */
 		bool is_valid();
 
-		/**
-		 * @brief Get the `Type` of the value at the field. Nil is returned if the field does not exist.
-		 * also see `get_typeof(int)`.
-		 *
-		 * @param field 
-		 * @return Type 
-		 */
-		Type get_type(const char* field);
+		template<class SetSymbol, class SetValue>
+		void set(SetSymbol symbol, SetValue& value);
 
-		/**
-		 * @brief Similar to `get_typeof(const char*)`.
-		 * 
-		 * @param index 
-		 * @return Type 
-		 */
-		Type get_type(int index);
+		template<class GetSymbol, class GetValue>
+		GetValue get(GetSymbol symbol);
 
-		bool get_bool(const char* field);
-		void set_bool(const char* field, bool value);
-
-		bool get_bool(int index);
-		void set_bool(int index, bool value);
-
-		double get_number(const char* field);
-		void set_number(const char* field, double value);
-
-		double get_number(int index);
-		void set_number(int index, double value);
-
-		const char* get_string(const char* field);
-		void set_string(const char* field, const char* value);
-
-		const char* get_string(int index);
-		void set_string(int index, const char* value);
-		
-		LuaTable get_table(const char* field);
-		void set_table(const char* field, LuaTable & value);
-
-		LuaTable get_table(int index);
-		void set_table(int index, LuaTable & value);
-		/*
-
-		ptr<Lua> get_thread(const char* field);
-		ptr<Lua> get_thread(int index);
-
-
-		void* get_userdata(const char* field);
-		void* get_userdata(int index);
-
-		void* get_lightuserdata(const char* field);
-		void* get_lightuserdata(int index);
-
-		LuaFunction get_function(const char* field);
-		LuaFunction get_function(int index);
-
-		void set_function(const char* field, LuaFunction & value);
-		*/
-
-		std::vector<const char*> get_all_fields();
-		int array_size();
-
-		constexpr static int default_dict_size = 128;
-		constexpr static int default_array_size = 128;
+		template<class GetValue>
+		Type get_type(GetValue value);
 
 		protected:
 		LuaTable(lua_State* th, 
-			bool create_table, 
-			int table_position, 
-			int dict_size=default_dict_size, 
-			int array_size=default_array_size
+			int table_position
 		);
 
+		LuaTable(lua_State* th);
+		
+		bool push_self();
+
+		/*
 		void add_field();
 		void add_index();
-
-		int field_count = 0;
-		int index_count = 0;
-
-		lua_State* L;
+		*/
 
 		private:
-		bool is_null = false;
 
 
 
