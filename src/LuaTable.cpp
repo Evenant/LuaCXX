@@ -1,6 +1,7 @@
 
 #include "../LuaCXX.hpp"
 #include <cstddef>
+#include <cstdlib>
 #include <vector>
 
 using namespace LuaCXX;
@@ -34,7 +35,7 @@ static void clone_values(lua_State* L, int from, int to)
 		lua_rawseti(L, to, i+1);
 	}
 }
-
+/*
 void LuaTable::add_field()
 {
 	this->field_count++;
@@ -61,23 +62,12 @@ void LuaTable::add_index()
 	lua_insert(this->thread, this->position);
 	lua_settop(this->thread, this->position);
 }
-
-LuaTable::LuaTable(lua_State* thread, bool create_table, int table_position, int dict_size, int array_size) : LuaRef(thread)
+*/
+LuaTable::LuaTable(lua_State* thread) : LuaRef(thread)
 {
-	if (create_table)
-	{
-		lua_createtable(this->thread, array_size, dict_size);
-		this->position = lua_gettop(this->thread);
-		
-	}	
-	else
-	{
-		this->position = table_position;
-	}
-	this->index_count = this->array_size();
-	this->field_count = this->get_all_fields().size();
-	
-
+	lua_pushlightuserdata(this->thread, this->key);
+	lua_createtable(this->thread, 0, 0);
+	lua_settable(this->thread, LUA_REGISTRYINDEX);
 }
 
 
@@ -123,67 +113,50 @@ static Type _get_type(lua_State* L)
 			break;
 	}
 
-	lua_pop(L, 1);
 	return t;
 }
+
+bool LuaTable::push_self()
+{
+	if (key)
+	{
+		lua_pushlightuserdata(this->thread, this->key);
+		lua_gettable(this->thread, LUA_REGISTRYINDEX);
+
+		return true;
+	}
+	return false;
+}
+
+template<>
 Type LuaTable::get_type(const char* field)
 {
-	if (this->is_null)
-		return Nil;
-	lua_getfield(this->thread, this->position, field);
-	return _get_type(this->thread);
+	if (!this->push_self())
+	{
+		lua_pushstring(this->thread, field);
+		lua_gettable(this->thread, this->position);
+	}
+	
+	Type t = _get_type(this->thread);
+
+	lua_pop(this->thread, -1);
+
+	return t;
+
 }
+
+template<>
 Type LuaTable::get_type(int index)
 {
-	if (this->is_null)
-		return Nil;
-	lua_rawgeti(this->thread, this->position, index);
-	return _get_type(this->thread);
-}
+	if (!this->push_self())
+	{
+		lua_pushinteger(this->thread, index);
+		lua_gettable(this->thread, this->position);
+	}
+	
+	Type t = _get_type(this->thread);
 
-std::vector<const char*> LuaTable::get_all_fields()
-{
-	std::vector<const char*> ret;
-	/* table is in the stack at index 't' */
-    lua_pushnil(this->thread);  /* first key */
-    while (lua_next(this->thread, this->position) != 0) {
-		constexpr int key = -2;
-		constexpr int value = -1;
+	lua_pop(this->thread, -1);
 
-		if (lua_type(this->thread, key) == LUA_TSTRING)
-			ret.push_back(lua_tostring(this->thread, key));
-		else
-			ret.push_back("");
-		
-    	lua_pop(this->thread, 1);
-    }
-	return ret;
-
-}
-
-int LuaTable::array_size()
-{
-	/*
-	int sz = 0;
-    lua_pushnil(this->L->get_rawstate()); 
-    while (lua_next(this->L->get_rawstate(), this->table_position) != 0) {
-		constexpr int key = -2;
-		constexpr int value = -1;
-
-		if (lua_type(this->L->get_rawstate(), key) == LUA_TNUMBER)
-			sz += 1;
-		
-    	lua_pop(this->L->get_rawstate(), 1);
-    }
-	*/
-	return lua_objlen(this->thread, this->position);
-}
-
-bool LuaTable::is_valid()
-{
-	if (this->is_null 
-	|| !lua_istable(this->thread, this->position)
-	)
-		return false;
-	return true;
+	return t;
 }

@@ -31,17 +31,18 @@ lua_State* LuaThread::get_lua()
 
 LuaTable LuaThread::globals()
 {
-	return LuaTable(this->value_thread, false, LUA_GLOBALSINDEX);
+	return LuaTable(this->value_thread, LUA_GLOBALSINDEX);
 }
 
-LuaTable LuaThread::new_table(int dict_size, int array_size)
+LuaTable LuaThread::registry()
 {
-	if (dict_size < 0)
-		dict_size = LuaTable::default_dict_size;
-	if (array_size < 0)
-		array_size = LuaTable::default_array_size;
+	return LuaTable(this->value_thread, LUA_REGISTRYINDEX);
+}
+
+LuaTable LuaThread::new_table()
+{
 	
-	return LuaTable(this->value_thread,true,0,dict_size,array_size);
+	return LuaTable(this->value_thread);
 }
 
 LuaThread LuaThread::new_thread()
