@@ -118,14 +118,14 @@ namespace LuaCXX
 		 */
 		bool is_valid();
 
-		template<class SetSymbol, class SetValue>
+		template<class SetValue, class SetSymbol>
 		void set(SetSymbol symbol, SetValue& value);
 
-		template<class GetSymbol, class GetValue>
+		template<class GetValue, class GetSymbol>
 		GetValue get(GetSymbol symbol);
 
-		template<class GetValue>
-		Type get_type(GetValue value);
+		template<class GetSymbol>
+		Type get_type(GetSymbol value);
 
 		protected:
 		LuaTable(lua_State* th, 
