@@ -4,18 +4,19 @@ CXXFLAGS= -std=gnu++17
 TESTING_HEADER=testing.hpp
 
 EXECUTABLES= \
-	setget/main
+	setget/main \
+	setget_table/main
 
 OBJECTS= \
-	setget/main.o
+	setget/main.o \
+	setget_table/main.o
 
 default: setget setget_table
+	$(foreach ${EXECUTABLES}, e, $e &&) echo "Finished running Tests."
 
 setget: setget/main
-	setget/main
 
 setget_table: setget_table/main
-	setget_table/main
 
 clean:
 	rm -f ${OBJECTS}
