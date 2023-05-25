@@ -1,4 +1,3 @@
-#include "lua_i.hpp"
 #include "../LuaCXX.hpp"
 
 using namespace LuaCXX;

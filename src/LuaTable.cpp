@@ -1,4 +1,4 @@
-#include "lua_i.hpp"
+
 #include "../LuaCXX.hpp"
 #include <cstddef>
 #include <vector>
@@ -62,21 +62,22 @@ void LuaTable::add_index()
 	lua_settop(this->thread, this->position);
 }
 
-LuaTable::LuaTable(lua_State* thread, bool create_table, int table_position) : LuaRef(thread)
+LuaTable::LuaTable(lua_State* thread, bool create_table, int table_position, int dict_size, int array_size) : LuaRef(thread)
 {
 	if (create_table)
 	{
-		lua_createtable(this->thread, 0, 0);
+		lua_createtable(this->thread, array_size, dict_size);
 		this->position = lua_gettop(this->thread);
-	}
+		
+	}	
 	else
 	{
 		this->position = table_position;
 	}
-	
-
 	this->index_count = this->array_size();
 	this->field_count = this->get_all_fields().size();
+	
+
 }
 
 
@@ -151,6 +152,8 @@ std::vector<const char*> LuaTable::get_all_fields()
 
 		if (lua_type(this->thread, key) == LUA_TSTRING)
 			ret.push_back(lua_tostring(this->thread, key));
+		else
+			ret.push_back("");
 		
     	lua_pop(this->thread, 1);
     }

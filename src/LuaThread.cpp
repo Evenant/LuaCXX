@@ -1,7 +1,5 @@
-#include "lua_i.hpp"
 #include "../LuaCXX.hpp"
 #include <iostream>
-#include <lua.h>
 
 using namespace LuaCXX;
 
@@ -30,4 +28,19 @@ lua_State* LuaThread::get_lua()
 LuaTable LuaThread::globals()
 {
 	return LuaTable(this->value_thread, false, LUA_GLOBALSINDEX);
+}
+
+LuaTable LuaThread::new_table(int dict_size, int array_size)
+{
+	if (dict_size < 0)
+		dict_size = LuaTable::default_dict_size;
+	if (array_size < 0)
+		array_size = LuaTable::default_array_size;
+	
+	return LuaTable(this->value_thread,true,0,dict_size,array_size);
+}
+
+LuaThread LuaThread::new_thread()
+{
+	return LuaThread(this->value_thread, true);
 }

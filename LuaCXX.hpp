@@ -87,6 +87,10 @@ namespace LuaCXX
 
 		LuaTable globals();
 
+		LuaTable new_table(int dict_size=-1, int array_size=-1);
+		LuaThread new_thread();
+		protected:
+
 		lua_State* value_thread;
 	};
 	/**
@@ -147,12 +151,12 @@ namespace LuaCXX
 		const char* get_string(int index);
 		void set_string(int index, const char* value);
 		
-		/*
 		LuaTable get_table(const char* field);
 		void set_table(const char* field, LuaTable & value);
 
 		LuaTable get_table(int index);
 		void set_table(int index, LuaTable & value);
+		/*
 
 		ptr<Lua> get_thread(const char* field);
 		ptr<Lua> get_thread(int index);
@@ -173,8 +177,16 @@ namespace LuaCXX
 		std::vector<const char*> get_all_fields();
 		int array_size();
 
+		constexpr static int default_dict_size = 128;
+		constexpr static int default_array_size = 128;
+
 		protected:
-		LuaTable(lua_State* th, bool create_table, int table_position);
+		LuaTable(lua_State* th, 
+			bool create_table, 
+			int table_position, 
+			int dict_size=default_dict_size, 
+			int array_size=default_array_size
+		);
 
 		void add_field();
 		void add_index();

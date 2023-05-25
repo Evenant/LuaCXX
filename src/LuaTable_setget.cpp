@@ -1,5 +1,3 @@
-
-#include "lua_i.hpp"
 #include "../LuaCXX.hpp"
 
 using namespace LuaCXX;
@@ -112,19 +110,31 @@ void LuaTable::set_string(int index, const char* value)
 	lua_rawseti(this->thread, this->position, index);
 }
 
-/* TODO: Finish this
+
 LuaTable LuaTable::get_table(const char * field)
 {
-	if (this->get_typeof(field) != Table)
-		return LuaTable(nullptr);
+	lua_getfield(this->thread, this->position, field);
 	
-	LuaTable lt = this->L->new_table();
-
-	
+	return LuaTable(this->thread, false, lua_gettop(this->thread), -1, -1);
 	
 }
-ptr<LuaTable> LuaTable::get_table(int index)
+
+void LuaTable::set_table(const char* field, LuaTable& value)
 {
+	value.move_into(this->thread);
+	lua_setfield(this->thread, this->position, field);
 
 }
-*/	
+LuaTable LuaTable::get_table(int index)
+{
+	lua_rawgeti(this->thread, this->position, index);
+
+	return LuaTable(this->thread, false, lua_gettop(this->thread), -1, -1);
+
+}
+void LuaTable::set_table(int field, LuaTable& value)
+{
+	value.move_into(this->thread);
+	lua_rawseti(this->thread, this->position, lua_gettop(this->thread));
+}
+
