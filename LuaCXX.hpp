@@ -60,16 +60,16 @@ namespace LuaCXX
 		protected:
 		LuaRef(lua_State* th);
 
-		/**
-		 * The Lua thread that contains this the value of this reference.
-		 * 
-		 */
+		/*
+			The Lua thread that will be used by this reference for operations.
+		*/
 		lua_State* thread;
-
-		/**
-		 * The position of the value in the stack of the Lua thread
-		 */
-		int position;
+		
+		
+		/*
+			The Lua registry is used to store references, and this unique pointer is used to identify a reference.
+		*/
+		void* key;
 	};
 
 	class LuaThread: public LuaRef
