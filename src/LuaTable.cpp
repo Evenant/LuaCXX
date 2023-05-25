@@ -70,7 +70,10 @@ LuaTable::LuaTable(lua_State* thread) : LuaRef(thread)
 	lua_settable(this->thread, LUA_REGISTRYINDEX);
 }
 
-
+LuaTable::LuaTable(lua_State* thread, int position) : LuaRef(thread, position)
+{
+	
+}
 
 static Type _get_type(lua_State* L)
 {
