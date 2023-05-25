@@ -7,7 +7,7 @@ INCLUA=/usr/include
 
 default: build
 
-build: 
+build: ${OUTPUT}
 	cd src && $(MAKE) build \
 		OUTPUT=${OUTPUT} \
 		INCLUA=${INCLUA} \
