@@ -70,8 +70,14 @@ endif
 
 OBJECTS= LuaThread.o \
 	LuaTable.o \
-	LuaTable_setget.o \
-	LuaRef.o
+	LuaRef.o \
+	LuaTable/bool_get.o \
+	LuaTable/bool_set.o \
+	LuaTable/number_get.o \
+	LuaTable/number_set.o \
+	LuaTable/string_get.o \
+	LuaTable/string_set.o
+	
 
 LUA_HEADERS= \
 	${INCLUA}/lua.h \
@@ -88,11 +94,26 @@ LuaThread.o: LuaThread.cpp ${API_HEADER}
 LuaTable.o: LuaTable.cpp ${API_HEADER}
 	${cxx_o}
 
-LuaTable_setget.o: LuaTable_setget.cpp ${API_HEADER}
-	${cxx_o}
-
 LuaRef.o : LuaRef.cpp ${API_HEADER}
 	${cxx_o}
+
+LuaTable/bool_get.o: LuaTable/bool_get.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/bool_set.o: LuaTable/bool_set.cpp ${API_HEADER}
+	${cxx_o}
+
+LuaTable/number_get.o: LuaTable/number_get.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/number_set.o: LuaTable/number_set.cpp ${API_HEADER}
+	${cxx_o}
+
+LuaTable/string_get.o: LuaTable/string_get.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/string_set.o: LuaTable/string_set.cpp ${API_HEADER}
+	${cxx_o}
+
+#LuaTable/_get.o: LuaTable/_get.cpp ${API_HEADER}
+#LuaTable/_set.o: LuaTable/_set.cpp ${API_HEADER}
 
 # Custom macro for creating C++ object files
 define cxx_o
