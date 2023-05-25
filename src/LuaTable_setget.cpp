@@ -18,7 +18,7 @@ using namespace LuaCXX;
 
 bool LuaTable::get_bool(const char* field)
 {
-	if (this->get_typeof(field) != Boolean)
+	if (this->get_type(field) != Boolean)
 		return false;
 	
 	lua_getfield(this->thread, this->position, field);
@@ -36,7 +36,7 @@ void LuaTable::set_bool(const char* field, bool value)
 }
 bool LuaTable::get_bool(int index)
 {
-	if (this->get_typeof(index) != Boolean)
+	if (this->get_type(index) != Boolean)
 		return false;
 	
 	lua_rawgeti(this->thread, this->position, index);
@@ -56,7 +56,7 @@ void LuaTable::set_bool(int index, bool value)
 
 double LuaTable::get_number(const char* field)
 {
-	if (this->get_typeof(field) != Number)
+	if (this->get_type(field) != Number)
 		return 0.0;
 	
 	lua_getfield(this->thread, this->position, field);
@@ -70,7 +70,7 @@ void LuaTable::set_number(const char* field, double value)
 }
 double LuaTable::get_number(int index)
 {
-	if (this->get_typeof(index) != Number)
+	if (this->get_type(index) != Number)
 		return 0.0;
 	
 	lua_rawgeti(this->thread, this->position, index);
@@ -84,7 +84,7 @@ void LuaTable::set_number(int index, double value)
 
 const char* LuaTable::get_string(const char* field)
 {
-	if (this->get_typeof(field) != String)
+	if (this->get_type(field) != String)
 		return 0;
 	
 	lua_getfield(this->thread, this->position, field);
@@ -98,7 +98,7 @@ void LuaTable::set_string(const char* field, const char* value)
 
 const char* LuaTable::get_string(int index)
 {
-	if (this->get_typeof(index) != String)
+	if (this->get_type(index) != String)
 		return 0;
 	
 	lua_rawgeti(this->thread, this->position, index);
