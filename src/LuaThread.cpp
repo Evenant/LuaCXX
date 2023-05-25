@@ -5,12 +5,16 @@ using namespace LuaCXX;
 
 LuaThread::LuaThread(lua_State* th, bool create_new_thread) : LuaRef(th)
 {
+	lua_pushlightuserdata(this->thread, this->key);
+
 	if (create_new_thread)
 		this->value_thread = lua_newthread(th);
 	else
-		this->value_thread = lua_tothread(th, -1);
+		this->value_thread = lua_tothread(th, -2);
 
-	this->position = lua_gettop(th);
+	lua_settable(this->thread, LUA_REGISTRYINDEX);
+
+
 
 }
 
