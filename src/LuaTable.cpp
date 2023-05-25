@@ -6,6 +6,8 @@
 
 using namespace LuaCXX;
 
+static Type _get_type(lua_State* L);
+
 static void clone_values(lua_State* L, int from, int to)
 {
 	lua_pushnil(L);  /* first key */
@@ -91,6 +93,41 @@ int LuaTable::get_top()
 
 	lua_settop(this->thread, bf);
 	return l;
+}
+
+std::vector<const char*> LuaTable::get_all_fields()
+{
+	int bf = lua_gettop(this->thread);
+
+	int tp;
+	if (!this->push_self())
+	{
+		tp = this->position;
+	}
+	else 
+	{
+		tp = lua_gettop(this->thread);
+	}
+	
+	std::vector<const char*> v;
+
+	lua_pushnil(this->thread);
+	while (lua_next(this->thread, tp))
+	{
+		constexpr int value = -1;
+		constexpr int key = -2;
+
+		// Remove value, now key is on -1
+		lua_pop(this->thread, 1);
+
+		if (_get_type(this->thread) == Type::String)
+			v.push_back(lua_tostring(this->thread, -1));
+		
+	}
+
+	lua_settop(this->thread, bf);
+
+	return v;
 }
 
 static Type _get_type(lua_State* L)
