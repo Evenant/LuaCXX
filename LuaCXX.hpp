@@ -127,6 +127,9 @@ namespace LuaCXX
 		template<class GetSymbol>
 		Type get_type(GetSymbol value);
 
+		int get_top();
+		std::vector<const char*> get_all_fields();
+
 		protected:
 		LuaTable(lua_State* th, 
 			int table_position

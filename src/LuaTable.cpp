@@ -72,7 +72,25 @@ LuaTable::LuaTable(lua_State* thread) : LuaRef(thread)
 
 LuaTable::LuaTable(lua_State* thread, int position) : LuaRef(thread, position)
 {
-	
+
+}
+
+int LuaTable::get_top()
+{
+	int bf = lua_gettop(this->thread);
+
+	size_t l;
+	if (!this->push_self())
+	{
+		l = lua_objlen(this->thread, this->position);
+	}
+	else
+	{
+		l = lua_objlen(this->thread, -1);
+	}
+
+	lua_settop(this->thread, bf);
+	return l;
 }
 
 static Type _get_type(lua_State* L)
