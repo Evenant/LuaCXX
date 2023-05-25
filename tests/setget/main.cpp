@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
 	using namespace LuaCXX;
 	using namespace std;
-	TEST_START(1, 1, "SetGet Global Table");
+	TEST_START(1, 2, "SetGet Global Table");
 
 	{
 		LuaThread luat = LuaThread(L, true);

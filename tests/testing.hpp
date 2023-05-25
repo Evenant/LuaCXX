@@ -95,7 +95,8 @@
 	constexpr int TEST_NUMBER = test_num; \
 	constexpr int TEST_NUMBER_OUT_OF = test_num_out_of; \
 	std::cout << TEST_INIT << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << ": " << message << CRESET << std::endl; \
-	lua_State* L = luaL_newstate();
+	lua_State* L = luaL_newstate(); \
+	luaL_openlibs(L);
 
 #define TEST_END \
 	lua_close(L); \
