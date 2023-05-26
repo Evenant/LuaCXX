@@ -91,17 +91,25 @@ namespace LuaCXX
 	class LuaThread: public LuaRef
 	{
 		public:
-		/**
-		 * Create a thread ( or coroutine ) from an existing Lua state.
-		 * If `create_new_thread` is true, then `lua_newthread` is called directly to create
-		 * a new thread, otherwise it is assumed that there is already a thread on the top of the 
-		 * stack, and takes that instead.
-		 */
+		/*
+			Create a thread ( or coroutine ) from an existing Lua state.
+			If `create_new_thread` is true, then `lua_newthread` is called directly to create
+			a new thread, otherwise it is assumed that there is already a thread on the top of the 
+			stack, and takes that instead.
+		*/
 		LuaThread(lua_State* th, bool create_new_thread=true);
+
 		operator lua_State*();
 		lua_State* get_lua();
 
+		/*
+			Lua's globals table, used for storing data accessible to Lua.
+		*/
 		LuaTable globals();
+
+		/*
+			Lua's registry, used for storing data that only meant to be used by external libraries and not Lua itself.
+		*/
 		LuaTable registry();
 
 		LuaTable new_table();
