@@ -8,14 +8,14 @@ bool LuaTable::get(const char* field)
 	// for cleanup
 	const int bf = lua_gettop(this->thread);
 
-	if (!this->push_self()) // If the value of this reference is in the Lua registry
+	if (!this->push_self()) // If the value of this reference is on the Lua stack
 	{
 		//
 		lua_pushstring(this->thread, field);
 		lua_gettable(this->thread, this->position);
 		// this->position[field]
 	}
-	else // If the value of this reference is on the Lua stack
+	else // If the value of this reference is in the Lua registry
 	{
 		//
 		lua_pushstring(this->thread, field);
@@ -38,14 +38,14 @@ bool LuaTable::get(int index)
 	// for cleanup
 	const int bf = lua_gettop(this->thread);
 
-	if (!this->push_self()) // If the value of this reference is in the Lua registry
+	if (!this->push_self()) // If the value of this reference is on the Lua stack
 	{
 		//
 		lua_pushinteger(this->thread, index);
 		lua_gettable(this->thread, this->position);
 		// this->position[index]
 	}
-	else // If the value of this reference is on the Lua stack
+	else // If the value of this reference is in the Lua registry
 	{
 		//
 		lua_pushinteger(this->thread, index);
