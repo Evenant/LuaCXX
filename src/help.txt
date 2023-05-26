@@ -1,3 +1,11 @@
 Building LuaCXX
 
+Simply run `make` or `make build` to build LuaCXX with default settings.
+LuaCXX only needs Lua's header files to build, and will search `/usr/include` by default for
+the 3 lua header files : `lua.h`, `lualib.h` and `lauxlib.h`.
 
+You can override the directory it searches for the headers in by setting `INCLUA`:
+	make build ... INCLUA="/path/to/lua-headers"
+
+Assuming that now the library is successfully built, we can now link it with a program ( you must link it with an actual lua library ):
+	g++ ... /path/to/liblua.a /path/to/libluacxx.a
