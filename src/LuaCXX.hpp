@@ -115,10 +115,7 @@ namespace LuaCXX
 
 		lua_State* value_thread;
 	};
-	/**
-	 * @brief Represents a handle to an internal Lua table.
-	 * 
-	 */
+	
 	class LuaTable : public LuaRef
 	{
 		public:
@@ -141,6 +138,18 @@ namespace LuaCXX
 		*/
 		template<class GetSymbol>
 		Type get_type(GetSymbol value);
+
+		template<class Value>
+		void push_top(Value value);
+
+		template<class Value>
+		void push_bottom(Value value);
+
+		template<class Return, class Value>
+		Return pop_top(Value value);
+
+		template<class Return, class Value>
+		Return pop_bottom(Value value);
 
 		/*
 			Get the top of this table ( or its length ),
