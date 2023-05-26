@@ -131,6 +131,7 @@ namespace LuaCXX
 		std::vector<const char*> get_all_fields();
 
 		/*
+			Sets this table to the table on index -1;
 			Assumes that the value on index -1 is a table.
 		*/
 		void set_self(lua_State* state);
