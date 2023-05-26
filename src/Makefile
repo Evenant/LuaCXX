@@ -28,7 +28,7 @@ INCLUA=/usr/include
 ################################
 
 
-API_HEADER=../LuaCXX.hpp
+API_HEADER=LuaCXX.hpp
 
 default: build ${OUTPUT} ${OBJECTS} ${INCLUA} ${LUA_HEADERS} ${API_HEADER}
 
