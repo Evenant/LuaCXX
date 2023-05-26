@@ -19,7 +19,7 @@ test: build ${LIBLUA}
 		LIBLUACXX=${OUTPUT}
 
 clean:
-	cd src && $(MAKE) clean
+	cd src && $(MAKE) clean OUTPUT=${OUTPUT}
 	cd tests && $(MAKE) clean
 
 .PHONY: default build test
