@@ -1,4 +1,4 @@
-#include "../LuaCXX.hpp"
+#include "LuaCXX.hpp"
 #include <cstdlib>
 
 using namespace LuaCXX;

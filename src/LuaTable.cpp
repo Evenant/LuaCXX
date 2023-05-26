@@ -1,5 +1,5 @@
 
-#include "../LuaCXX.hpp"
+#include "LuaCXX.hpp"
 #include <cstddef>
 #include <cstdlib>
 #include <vector>
