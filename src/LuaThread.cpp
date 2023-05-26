@@ -9,7 +9,7 @@ LuaThread::LuaThread(lua_State* th) : LuaRef(th)
 
 	this->value_thread = lua_newthread(th);
 
-	// LUA_REGISTRY[this->key] = this->value_thread;
+	// LUA_REGISTRY[this->key] = this->value_thread
 
 	// now set it
 	lua_settable(this->thread, LUA_REGISTRYINDEX);
