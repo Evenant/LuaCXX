@@ -130,6 +130,11 @@ namespace LuaCXX
 		int get_top();
 		std::vector<const char*> get_all_fields();
 
+		/*
+			Assumes that the value on index -1 is a table.
+		*/
+		void set_self(lua_State* state);
+
 		protected:
 		LuaTable(lua_State* th, 
 			int table_position

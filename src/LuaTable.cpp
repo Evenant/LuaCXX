@@ -2,6 +2,7 @@
 #include "../LuaCXX.hpp"
 #include <cstddef>
 #include <cstdlib>
+#include <lua.h>
 #include <vector>
 
 using namespace LuaCXX;
@@ -128,6 +129,26 @@ std::vector<const char*> LuaTable::get_all_fields()
 	lua_settop(this->thread, bf);
 
 	return v;
+}
+
+void LuaTable::set_self(lua_State *state)
+{
+	if (this->key)
+	{
+		lua_pushlightuserdata(this->thread, this->key);
+		lua_insert(this->thread, -2);
+
+		lua_settable(this->thread, LUA_REGISTRYINDEX);
+	}
+	else
+	{
+		if (this->position != LUA_REGISTRYINDEX
+		&& this->position != LUA_GLOBALSINDEX
+		&& this->position != LUA_ENVIRONINDEX)
+			lua_replace(this->thread, this->position);
+
+	}
+
 }
 
 static Type _get_type(lua_State* L)
