@@ -12,7 +12,7 @@ OBJECTS= \
 	setget_table/main.o
 
 default: setget setget_table
-	$(foreach ${EXECUTABLES}, e, $e &&) echo "Finished running Tests."
+	$(foreach e, ${EXECUTABLES}, $e &&) echo "Finished running Tests."
 
 setget: setget/main
 
