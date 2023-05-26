@@ -32,7 +32,7 @@ namespace LuaCXX
 	typedef class LuaRef LuaRef;
 
 	/*
-		Reference to a table in Lua.
+		Reference to a Lua table.
 	*/
 	typedef class LuaTable LuaTable;
 
@@ -103,7 +103,7 @@ namespace LuaCXX
 		lua_State* get_lua();
 
 		/*
-			Lua's globals table, used for storing data accessible to Lua.
+			Lua's globals table, used for storing data accessible to all of Lua.
 		*/
 		LuaTable globals();
 
@@ -127,24 +127,33 @@ namespace LuaCXX
 		public:
 		friend LuaThread;
 
-		/**
-		 * @brief If this handle still points to a table.
-		 * 
-		 * @return true
-		 * @return false 
-		 */
-		bool is_valid();
-
+		/*
+			Set a value
+		*/
 		template<class SetValue, class SetSymbol>
 		void set(SetSymbol symbol, SetValue& value);
 
+		/*
+			Get a value
+		*/
 		template<class GetValue, class GetSymbol>
 		GetValue get(GetSymbol symbol);
 
+		/*
+			Get the type of the value
+		*/
 		template<class GetSymbol>
 		Type get_type(GetSymbol value);
 
+		/*
+			Get the top of this table ( or its length ),
+			take this and add 1 to get the next index to add a value to via `LuaTable::set`
+		*/
 		int get_top();
+
+		/*
+			Get all the fields of this table.
+		*/
 		std::vector<const char*> get_all_fields();
 
 		/*
@@ -160,6 +169,10 @@ namespace LuaCXX
 
 		LuaTable(lua_State* th);
 		
+		/*
+			Push this table onto the stack, returns false if this is actually a reference to a table that
+			already exists on the stack.
+		*/
 		bool push_self();
 
 	};
