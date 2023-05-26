@@ -12,14 +12,16 @@ static Type _get_type(lua_State* L);
 
 LuaTable::LuaTable(lua_State* thread) : LuaRef(thread)
 {
+	//
 	lua_pushlightuserdata(this->thread, this->key);
 	lua_createtable(this->thread, 0, 0);
 	lua_settable(this->thread, LUA_REGISTRYINDEX);
+	// LUA_REGISTRY[this->key] = {}
 }
 
 LuaTable::LuaTable(lua_State* thread, int position) : LuaRef(thread, position)
 {
-
+	// Just a handle to the other LuaRef constructor.
 }
 
 int LuaTable::get_top()
