@@ -26,11 +26,24 @@ extern "C"
 
 namespace LuaCXX
 {
-
+	/*
+		Reference for a value in Lua ( either on the Lua stack or in the Lua registry ).
+	*/
 	typedef class LuaRef LuaRef;
+
+	/*
+		Reference to a table in Lua.
+	*/
 	typedef class LuaTable LuaTable;
+
+	/*
+		Reference to a Lua thread.
+	*/
 	typedef class LuaThread LuaThread;
 
+	/*
+		Types of Lua values
+	*/
 	enum Type
 	{
 		Nil,
@@ -45,10 +58,6 @@ namespace LuaCXX
 		Function
 	};
 
-	/**
-	 * Basic reference to a Lua value.
-	 * 
-	 */
 	class LuaRef
 	{
 		public:
@@ -67,14 +76,14 @@ namespace LuaCXX
 		lua_State* thread;
 		
 		/*
-			If a reference is used as way to perform operations on a lua value that
+			If a reference is used as way to perform operations on a Lua value that
 			already exists in the stack, then this should be the position of that value in the stack.
 		*/
 		int position;
 
 		/*
-			The Lua registry is used to store references,
-			and this unique pointer is used to identify a reference.
+			If a reference is used as a way to perform operations on a Lua value that exists in the
+			Lua registry, this should be the key of the value in the registry.
 		*/
 		void* key;
 	};
