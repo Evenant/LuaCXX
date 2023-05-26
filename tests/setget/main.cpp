@@ -7,7 +7,7 @@ extern "C"
 
 #include <string.h>
 
-#include "../../LuaCXX.hpp"
+#include "../../src/LuaCXX.hpp"
 #include "../testing.hpp"
 
 int main(int argc, char **argv)

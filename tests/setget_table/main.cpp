@@ -1,4 +1,4 @@
-#include "../../LuaCXX.hpp"
+#include "../../src/LuaCXX.hpp"
 #include "../testing.hpp"
 #include <iostream>
 
