@@ -145,15 +145,6 @@ namespace LuaCXX
 		
 		bool push_self();
 
-		/*
-		void add_field();
-		void add_index();
-		*/
-
-		private:
-
-
-
 	};
 
 }
