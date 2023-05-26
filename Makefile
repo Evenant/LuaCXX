@@ -8,6 +8,8 @@ INCLUA=/usr/include
 default: build
 
 build: ${OUTPUT}
+
+${OUTPUT}: 
 	cd src && $(MAKE) build \
 		OUTPUT=${OUTPUT} \
 		INCLUA=${INCLUA} \
