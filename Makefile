@@ -7,14 +7,14 @@ INCLUA=/usr/include
 
 default: build
 
-build: ${OUTPUT}
-
-${OUTPUT}: 
+build:
 	cd src && $(MAKE) build \
 		OUTPUT=${OUTPUT} \
 		INCLUA=${INCLUA} \
+	
+${OUTPUT}: build
 
-test: build ${LIBLUA} 
+test: build ${OUTPUT} ${LIBLUA} 
 	cd tests && $(MAKE) \
 		OUTPUT=${OUTPUT} \
 		LIBLUA=${LIBLUA} \
