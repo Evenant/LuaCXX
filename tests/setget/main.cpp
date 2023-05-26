@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	TEST_START(1, 2, "SetGet Global Table");
 
 	{
-		LuaThread luat = LuaThread(L, true);
+		LuaThread luat = LuaThread(L);
 
 		LuaTable gtable = luat.globals();
 

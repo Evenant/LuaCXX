@@ -3,14 +3,11 @@
 
 using namespace LuaCXX;
 
-LuaThread::LuaThread(lua_State* th, bool create_new_thread) : LuaRef(th)
+LuaThread::LuaThread(lua_State* th) : LuaRef(th)
 {
 	lua_pushlightuserdata(this->thread, this->key);
 
-	if (create_new_thread)
-		this->value_thread = lua_newthread(th);
-	else
-		this->value_thread = lua_tothread(th, -2);
+	this->value_thread = lua_newthread(th);
 
 	lua_settable(this->thread, LUA_REGISTRYINDEX);
 
@@ -47,5 +44,5 @@ LuaTable LuaThread::new_table()
 
 LuaThread LuaThread::new_thread()
 {
-	return LuaThread(this->value_thread, true);
+	return LuaThread(this->value_thread);
 }
