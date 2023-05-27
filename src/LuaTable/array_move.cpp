@@ -82,7 +82,7 @@ void LuaTable::move_down(int index)
 	const int top = this->get_top();
 	for (int i = index; i <= top; i--)
 	{
-		const LuaType t = this->get_type(i);
+		const LuaType t = this->get_type(i+1);
 		if (t == LuaType::Number)
 		{
 			const double v = this->get<double>(i+1);
