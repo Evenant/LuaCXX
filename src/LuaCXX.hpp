@@ -1,16 +1,28 @@
-/**
- * @file LuaCXX.hpp
- * @author Evenant (https://github.com/Evenant)
- * @brief The header file for all of LuaCXX
- * @version 0.1
- * @date 2023-05-22
- * 
- * @copyright Copyright (c) 2023
- * 
- */
+/*
+	LuaCXX, a wrapper around the Lua scriping language.
+
+	Started on 22 May 2023
+	Started by Evenant (https://github.com/Evenant)
+*/
 
 #ifndef LUACXX_HPP
 #define LUACXX_HPP
+
+/*
+	Different major versions will have a lot breaking changes between eachother
+*/
+#define LUACXX_VER_MAJOR 0
+/*
+	Different minor versions may have some incompatibility problems between eachother,
+	but should be easily circumvented with some minor tweaks.
+*/
+#define LUACXX_VER_MINOR 1
+
+/*
+	This should be changed every time LuaCXX is changed in any way at all,
+	and should be reset every time the major or minor changes.
+*/
+#define LUACXX_VER_PATCH 1
 
 extern "C"
 {
