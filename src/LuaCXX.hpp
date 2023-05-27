@@ -46,7 +46,7 @@
 
 	Should reset back to 1 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 11
+#define LUACXX_VER_PATCH 12
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
@@ -82,11 +82,6 @@ namespace LuaCXX
 		Reference to a Lua thread.
 	*/
 	typedef class LuaThread LuaThread;
-
-	/*
-		A struct specifically for representing a Lua nil value.
-	*/
-	typedef struct LuaNil {} LuaNil;
 
 	/*
 		Types of Lua values
