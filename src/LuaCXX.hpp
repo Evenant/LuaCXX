@@ -139,17 +139,23 @@ namespace LuaCXX
 		template<class GetSymbol>
 		Type get_type(GetSymbol value);
 
-		template<class Value>
-		void push_top(Value value);
+		/*
+			Push and Pop operations, as if this table were an array.
+		*/
 
-		template<class Value>
-		void push_bottom(Value value);
+		/*
+			Push `value` into `index`.
+			Moves elements in and above `index` upwards.
+		*/
+		template <class Value>
+		void push(Value value, int index);
 
-		template<class Return, class Value>
-		Return pop_top(Value value);
-
-		template<class Return, class Value>
-		Return pop_bottom(Value value);
+		/*
+			Pop `value` from `index` and returns it.
+			Moves elements above `index` downwards.
+		*/
+		template <class Value>
+		Value pop(int index);
 
 		/*
 			Get the top of this table ( or its length ),
