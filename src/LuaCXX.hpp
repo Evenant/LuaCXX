@@ -53,7 +53,7 @@
 
 	Should reset back to 0 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 0
+#define LUACXX_VER_SUBPATCH 1
 
 
 extern "C"

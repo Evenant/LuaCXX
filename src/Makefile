@@ -51,12 +51,20 @@ OBJECTS= LuaThread.o \
 	LuaRef.o \
 	LuaTable/bool_get.o \
 	LuaTable/bool_set.o \
+	LuaTable/bool_pop.o \
+	LuaTable/bool_push.o \
 	LuaTable/number_get.o \
 	LuaTable/number_set.o \
+	LuaTable/number_pop.o \
+	LuaTable/number_push.o \
 	LuaTable/string_get.o \
 	LuaTable/string_set.o \
+	LuaTable/string_pop.o \
+	LuaTable/string_push.o \
 	LuaTable/table_get.o \
 	LuaTable/table_set.o \
+	LuaTable/table_pop.o \
+	LuaTable/table_push.o \
 	LuaTable/nil_set.o
 	
 
@@ -82,24 +90,44 @@ LuaTable/bool_get.o: LuaTable/bool_get.cpp ${API_HEADER}
 	${cxx_o}
 LuaTable/bool_set.o: LuaTable/bool_set.cpp ${API_HEADER}
 	${cxx_o}
+LuaTable/bool_pop.o: LuaTable/bool_pop.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/bool_push.o: LuaTable/bool_push.cpp ${API_HEADER}
+	${cxx_o}
 
 LuaTable/number_get.o: LuaTable/number_get.cpp ${API_HEADER}
 	${cxx_o}
 LuaTable/number_set.o: LuaTable/number_set.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/number_pop.o: LuaTable/number_pop.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/number_push.o: LuaTable/number_push.cpp ${API_HEADER}
 	${cxx_o}
 
 LuaTable/string_get.o: LuaTable/string_get.cpp ${API_HEADER}
 	${cxx_o}
 LuaTable/string_set.o: LuaTable/string_set.cpp ${API_HEADER}
 	${cxx_o}
+LuaTable/string_pop.o: LuaTable/string_pop.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/string_push.o: LuaTable/string_push.cpp ${API_HEADER}
+	${cxx_o}
 
 LuaTable/table_get.o: LuaTable/table_get.cpp ${API_HEADER}
 	${cxx_o}
 LuaTable/table_set.o: LuaTable/table_set.cpp ${API_HEADER}
 	${cxx_o}
+LuaTable/table_pop.o: LuaTable/table_pop.cpp ${API_HEADER}
+	${cxx_o}
+LuaTable/table_push.o: LuaTable/table_push.cpp ${API_HEADER}
+	${cxx_o}
 
 LuaTable/nil_set.o: LuaTable/nil_set.cpp ${API_HEADER}
 	${cxx_o}
+
+# Template
+#LuaTable/_pop.o: LuaTable/_pop.cpp ${API_HEADER}
+#LuaTable/_push.o: LuaTable/_push.cpp ${API_HEADER}
 #LuaTable/_get.o: LuaTable/_get.cpp ${API_HEADER}
 #LuaTable/_set.o: LuaTable/_set.cpp ${API_HEADER}
 
