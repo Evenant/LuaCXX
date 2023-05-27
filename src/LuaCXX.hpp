@@ -9,20 +9,52 @@
 #define LUACXX_HPP
 
 /*
-	Different major versions will have a lot breaking changes between eachother
+	This is very unlikely to change.
+
+	The time this would change is if LuaCXX got a near complete overhaul, or LuaCXX is being changed to support
+	a new breaking update to Lua.
 */
 #define LUACXX_VER_MAJOR 0
+
 /*
+	This should be increased whenever a new feature(s) is added, an existing feature(s) is heavily improved/overhauled
+	or a large bug(s) is removed ( also known as a "minor update" ).
+
+	Creating utility functions, fixing a small bug, some speed optimization or anything that does not make an immedietelly noticable change
+	is considered a "patch", not a "minor update", see LUACXX_VER_PATCH.
+
+	Creating a class that encapsulates a new feature(s), modifying existing classes to accommodate for a new feature(s), fixing
+	a breaking bug and similar are considered a "minor update".
+
 	Different minor versions may have some incompatibility problems between eachother,
 	but should be easily circumvented with some minor tweaks.
+
+	Should reset back to 1 when LUACXX_VER_MAJOR changes.
 */
 #define LUACXX_VER_MINOR 1
 
 /*
-	This should be changed every time LuaCXX is changed in any way at all,
-	and should be reset every time the major or minor changes.
+	This should be increased every time LuaCXX is changed in a way that might change how it works ( also known as a "patch" ).
+	A changed comment, modified Makefile, creation/modification of a test or any change that does not change how LuaCXX works internally should not
+	be considered a "patch", see LUACXX_VER_SUBPATCH.
+
+	A changed function/variable/class name, creation/deletion/renaming of a source/header file, a single line of code that fixes a
+	stupid bug and other such changes are considered a "patch", and as such should increase this value.
+
+	Patches should not be too disimilar from each other, otherwise that would be a minor update, and it would be better to increase 
+	LUACXX_VER_MINOR instead.
+
+	Should reset back to 1 when LUACXX_VER_MINOR changes.
 */
 #define LUACXX_VER_PATCH 5
+
+/*
+	Anything changing in the LuaCXX repository should increase this value.
+
+	Should reset back to 1 when LUACXX_VER_PATCH changes.
+*/
+#define LUACXX_VER_SUBPATCH 1
+
 
 extern "C"
 {
