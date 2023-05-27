@@ -20,14 +20,14 @@ int main()
 
 		{
 			//
-			double n = 1.0;
+			const double n = 1.0;
 			tb.push(n, tb.get_top()+1);
 			// tb[2] = 1.0
 		}
 
 		{
 			//
-			bool b = false;
+			const bool b = false;
 			tb.push(b, tb.get_top()+1);
 			// tb[3] = false
 		}
