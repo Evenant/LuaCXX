@@ -46,14 +46,14 @@
 
 	Should reset back to 1 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 9
+#define LUACXX_VER_PATCH 10
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
 
 	Should reset back to 1 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 2
+#define LUACXX_VER_SUBPATCH 1
 
 
 extern "C"
@@ -201,7 +201,7 @@ namespace LuaCXX
 			Moves elements in and above `index` upwards.
 		*/
 		template <class Value>
-		void push(Value value, int index);
+		void push(Value& value, int index);
 
 		/*
 			Pop a value from `index` and returns it.
