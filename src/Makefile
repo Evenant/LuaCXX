@@ -65,7 +65,8 @@ OBJECTS= LuaThread.o \
 	LuaTable/table_set.o \
 	LuaTable/table_pop.o \
 	LuaTable/table_push.o \
-	LuaTable/nil_set.o
+	LuaTable/nil_set.o \
+	LuaTable/array_move.o
 	
 
 LUA_HEADERS= \
@@ -123,6 +124,9 @@ LuaTable/table_push.o: LuaTable/table_push.cpp ${API_HEADER}
 	${cxx_o}
 
 LuaTable/nil_set.o: LuaTable/nil_set.cpp ${API_HEADER}
+	${cxx_o}
+
+LuaTable/array_move.o: LuaTable/array_move.cpp ${API_HEADER}
 	${cxx_o}
 
 # Template
