@@ -19,7 +19,11 @@ TESTS= \
 	setget_nilify
 
 default: ${TESTS}
-	$(foreach e, ${EXECUTABLES}, $e &&) echo "Finished running Tests."
+	@echo 
+	@echo "Running tests"
+	@echo 
+	@$(foreach e, ${EXECUTABLES}, $e &&) echo "Finished running Tests."
+	@echo 
 
 setget: setget/main
 

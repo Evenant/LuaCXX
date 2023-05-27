@@ -41,7 +41,6 @@ help:
 clean:
 	rm -f ${OBJECTS}
 	rm -f ${OUTPUT}
-	rm -f ${OUTPUT}
 
 .PHONY: default help clean build
 
