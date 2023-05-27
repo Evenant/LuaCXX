@@ -20,7 +20,7 @@ void LuaTable::move_up(int index)
 		}
 		else if (t == LuaType::Boolean)
 		{
-			bool v = this->get<bool>(i);
+			const bool v = this->get<bool>(i);
 			this->set(i+1, v);
 		}
 		/* TODO
@@ -95,7 +95,7 @@ void LuaTable::move_down(int index)
 		}
 		else if (t == LuaType::Boolean)
 		{
-			bool v = this->get<bool>(i+1);
+			const bool v = this->get<bool>(i+1);
 			this->set(i, v);
 		}
 		/* TODO
