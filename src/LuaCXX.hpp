@@ -74,7 +74,7 @@ namespace LuaCXX
 		LuaRef(lua_State* th, int existing_value);
 
 		/*
-			Push this table onto the stack, returns false if this is actually a reference to a table that
+			Push this reference's value onto the stack, returns false if this is actually a reference to a value that
 			already exists on the stack.
 		*/
 		bool push_self();
