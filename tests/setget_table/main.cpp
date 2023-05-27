@@ -15,21 +15,16 @@ int main()
 
 		LuaTable car_table = luat.new_table();
 
+		const char* real_wheel = "Wheel";
+
 		const char* carwheels_table_k = "wheels";
 		{
 			LuaTable carwheels_table = luat.new_table();
 
-			const char * Wheel1_v = "Wheel";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel1_v);
-
-			const char * Wheel2_v = "Wheel";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel2_v);
-
-			const char * Wheel3_v = "Wheel";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel3_v);
-
-			const char * Wheel4_v = "Wheel";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel4_v);
+			carwheels_table.set(carwheels_table.get_top()+1, real_wheel);
+			carwheels_table.set(carwheels_table.get_top()+1, real_wheel);
+			carwheels_table.set(carwheels_table.get_top()+1, real_wheel);
+			carwheels_table.set(carwheels_table.get_top()+1, real_wheel);
 
 			car_table.set(carwheels_table_k, carwheels_table);
 		}
@@ -46,7 +41,8 @@ int main()
 		for (int i = 1;i <= carwheels_table.get_top();i++)
 		{
 			wheel_count++;
-			ASSERT((strcmp(carwheels_table.get<const char*>(i), "Wheel")), "There is a wheel that is NOT a wheel.");
+			const char* w = carwheels_table.get<const char*>(i);
+			ASSERT((strcmp(w, real_wheel)==0), "There is a wheel that is NOT a wheel.");
 		}
 		ASSERT(!(wheel_count < 4), "This car does not have enough wheels.");
 		ASSERT(!(wheel_count > 4), "This car has too much wheels.");
