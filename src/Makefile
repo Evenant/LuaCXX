@@ -57,7 +57,8 @@ OBJECTS= LuaThread.o \
 	LuaTable/string_get.o \
 	LuaTable/string_set.o \
 	LuaTable/table_get.o \
-	LuaTable/table_set.o
+	LuaTable/table_set.o \
+	LuaTable/nil_set.o
 	
 
 LUA_HEADERS= \
@@ -96,6 +97,9 @@ LuaTable/string_set.o: LuaTable/string_set.cpp ${API_HEADER}
 LuaTable/table_get.o: LuaTable/table_get.cpp ${API_HEADER}
 	${cxx_o}
 LuaTable/table_set.o: LuaTable/table_set.cpp ${API_HEADER}
+	${cxx_o}
+
+LuaTable/nil_set.o: LuaTable/nil_set.cpp ${API_HEADER}
 	${cxx_o}
 #LuaTable/_get.o: LuaTable/_get.cpp ${API_HEADER}
 #LuaTable/_set.o: LuaTable/_set.cpp ${API_HEADER}
