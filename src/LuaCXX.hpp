@@ -29,7 +29,7 @@
 	Different minor versions may have some incompatibility problems between eachother,
 	but should be easily circumvented with some minor tweaks.
 
-	Should reset back to 1 when LUACXX_VER_MAJOR changes.
+	Should reset back to 0 when LUACXX_VER_MAJOR changes.
 */
 #define LUACXX_VER_MINOR 1
 
@@ -44,16 +44,16 @@
 	Patches should not be too disimilar from each other, otherwise that would be a minor update, and it would be better to increase 
 	LUACXX_VER_MINOR instead.
 
-	Should reset back to 1 when LUACXX_VER_MINOR changes.
+	Should reset back to 0 when LUACXX_VER_MINOR changes.
 */
 #define LUACXX_VER_PATCH 13
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
 
-	Should reset back to 1 when LUACXX_VER_PATCH changes.
+	Should reset back to 0 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 1
+#define LUACXX_VER_SUBPATCH 0
 
 
 extern "C"
