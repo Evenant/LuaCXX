@@ -183,7 +183,7 @@ void LuaTable::move_up(int index)
 		const LuaType t = this->get_type(i);
 		if (t == LuaType::Nil)
 		{
-			this->set(i+1, void);
+			this->set_nil(i+1);
 		}
 		else if (t == LuaType::Number)
 		{
@@ -222,45 +222,6 @@ void LuaTable::move_up(int index)
 
 		}
 
-		switch (this->get_type(i))
-		{
-			case Nil:
-				const LuaNil ln;
-				this->set(i+1, ln);
-				break;
-
-			case Number:
-				const double v = this->get<double>(i);
-				this->set(i+1, (double&)this->get<double>(i));
-				break;
-
-			case String:
-				break;
-
-			case Boolean:
-				break;
-
-			case Thread:
-				break;
-
-			case None:
-				break;
-
-			case Table:
-				break;
-
-			case Userdata:
-				break;
-
-			case LightUserdata:
-				break;
-
-			case Function:
-				break;
-
-
-		}
-		this->set(i+1, this->get(i));
 	}
 
 	return; // dont run the code after this
