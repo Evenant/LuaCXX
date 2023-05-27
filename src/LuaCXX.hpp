@@ -19,8 +19,6 @@ extern "C"
 	#include "lauxlib.h"
 }
 
-#include <cstddef>
-#include <memory>
 #include <vector>
 
 
