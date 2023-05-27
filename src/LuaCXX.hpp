@@ -40,9 +40,14 @@ namespace LuaCXX
 	typedef class LuaThread LuaThread;
 
 	/*
+		A struct specifically for representing a Lua nil value.
+	*/
+	typedef struct LuaNil {} LuaNil;
+
+	/*
 		Types of Lua values
 	*/
-	enum Type
+	enum LuaType
 	{
 		Nil,
 		Number,
@@ -125,6 +130,10 @@ namespace LuaCXX
 		template<class SetValue, class SetSymbol>
 		void set(SetSymbol symbol, SetValue& value);
 
+		template<class SetSymbol>
+		void set_nil(SetSymbol symbol);
+
+
 		/*
 			Get a value
 		*/
@@ -135,7 +144,7 @@ namespace LuaCXX
 			Get the type of the value
 		*/
 		template<class GetSymbol>
-		Type get_type(GetSymbol value);
+		LuaType get_type(GetSymbol value);
 
 		/*
 			Push and Pop operations, as if this table were an array.
@@ -154,6 +163,22 @@ namespace LuaCXX
 		*/
 		template <class Value>
 		Value pop(int index);
+
+		protected:
+
+		/*
+			Move values in and above `index` upwards by 1 index.
+			Leaving the value at `index` as nil.
+		*/
+		void move_up(int index);
+		
+		/*
+			Move values above `index` downwards by 1 index.
+			Replaces the value at `index` with the value above `index`.
+		*/
+		void move_down(int index);
+
+		public:
 
 		/*
 			Get the top of this table ( or its length ),
