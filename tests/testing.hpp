@@ -84,10 +84,10 @@
 #define TEST_FAILURE HRED
 #define TEST_INIT YEL
 
-#define ASSERT(condition, err_message) \
+#define ASSERT(condition, line_n, err_message) \
 	if (!condition) \
 	{ \
-		std::cout << TEST_FAILURE << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " has failed with the following message : " << err_message << CRESET << std::endl; \
+		std::cout << TEST_FAILURE << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " has failed at line " << line_n << " with the following message : " << err_message << CRESET << std::endl << std::endl; \
 		return 1; \
 	}
 
@@ -100,8 +100,10 @@
 
 #define TEST_END \
 	lua_close(L); \
-	std::cout << TEST_SUCCESS << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " ran Successfully" << CRESET << std::endl; \
+	std::cout << TEST_SUCCESS << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " ran Successfully" << CRESET << std::endl << std::endl; \
 	return 0;
+
+#define LuaTable_TESTS 3
 
 
 

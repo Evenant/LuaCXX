@@ -22,7 +22,7 @@
 	This should be changed every time LuaCXX is changed in any way at all,
 	and should be reset every time the major or minor changes.
 */
-#define LUACXX_VER_PATCH 2
+#define LUACXX_VER_PATCH 3
 
 extern "C"
 {
