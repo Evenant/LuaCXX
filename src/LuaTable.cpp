@@ -6,7 +6,7 @@
 
 using namespace LuaCXX;
 
-static Type _get_type(lua_State* L);
+static LuaType _get_type(lua_State* L);
 
 
 
@@ -67,7 +67,7 @@ std::vector<const char*> LuaTable::get_all_fields()
 		// Remove value, now key is on -1
 		lua_pop(this->thread, 1);
 
-		if (_get_type(this->thread) == Type::String)
+		if (_get_type(this->thread) == LuaType::String)
 			v.push_back(lua_tostring(this->thread, -1));
 		
 	}
@@ -97,8 +97,9 @@ void LuaTable::set_self(lua_State *state)
 
 }
 
-static Type _get_type(lua_State* L)
+static LuaType _get_type(lua_State* L)
 {
+	typedef LuaType Type;
 	Type t;
 
 	switch (lua_type(L, -1)) 
@@ -141,20 +142,8 @@ static Type _get_type(lua_State* L)
 	return t;
 }
 
-bool LuaTable::push_self()
-{
-	if (key)
-	{
-		lua_pushlightuserdata(this->thread, this->key);
-		lua_gettable(this->thread, LUA_REGISTRYINDEX);
-
-		return true;
-	}
-	return false;
-}
-
 template<>
-Type LuaTable::get_type(const char* field)
+LuaType LuaTable::get_type(const char* field)
 {
 	if (!this->push_self())
 	{
@@ -162,7 +151,7 @@ Type LuaTable::get_type(const char* field)
 		lua_gettable(this->thread, this->position);
 	}
 	
-	Type t = _get_type(this->thread);
+	LuaType t = _get_type(this->thread);
 
 	lua_pop(this->thread, -1);
 
@@ -171,7 +160,7 @@ Type LuaTable::get_type(const char* field)
 }
 
 template<>
-Type LuaTable::get_type(int index)
+LuaType LuaTable::get_type(int index)
 {
 	if (!this->push_self())
 	{
@@ -179,9 +168,133 @@ Type LuaTable::get_type(int index)
 		lua_gettable(this->thread, this->position);
 	}
 	
-	Type t = _get_type(this->thread);
+	LuaType t = _get_type(this->thread);
 
 	lua_pop(this->thread, -1);
 
 	return t;
 }
+
+void LuaTable::move_up(int index)
+{
+	
+	for (int i = this->get_top(); i >= index; i--)
+	{
+		const LuaType t = this->get_type(i);
+		if (t == LuaType::Nil)
+		{
+			this->set(i+1, void);
+		}
+		else if (t == LuaType::Number)
+		{
+
+		}
+		else if (t == LuaType::String)
+		{
+
+		}
+		else if (t == LuaType::Boolean)
+		{
+
+		}
+		else if (t == LuaType::Thread)
+		{
+
+		}
+		else if (t == LuaType::None)
+		{
+			
+		}
+		else if (t == LuaType::Table)
+		{
+
+		}
+		else if (t == LuaType::Userdata)
+		{
+
+		}
+		else if (t == LuaType::LightUserdata)
+		{
+
+		}
+		else if (t == LuaType::Function)
+		{
+
+		}
+
+		switch (this->get_type(i))
+		{
+			case Nil:
+				const LuaNil ln;
+				this->set(i+1, ln);
+				break;
+
+			case Number:
+				const double v = this->get<double>(i);
+				this->set(i+1, (double&)this->get<double>(i));
+				break;
+
+			case String:
+				break;
+
+			case Boolean:
+				break;
+
+			case Thread:
+				break;
+
+			case None:
+				break;
+
+			case Table:
+				break;
+
+			case Userdata:
+				break;
+
+			case LightUserdata:
+				break;
+
+			case Function:
+				break;
+
+
+		}
+		this->set(i+1, this->get(i));
+	}
+
+	return; // dont run the code after this
+			// Essentially im saving the code below incase it is useful.
+	
+	// for cleanup
+	int bf = lua_gettop(this->thread);
+
+	// position of the table we are working with
+	int tb = 0;
+
+	if (!this->push_self()) // If the value of this reference is on the Lua stack
+	{
+		tb = this->position;
+	}
+	else // If the value of this reference is on the Lua registry
+	{
+		// The table just pushed itself to the top of the stack
+		// so do this
+		tb = lua_gettop(this->thread);
+	}
+
+	
+	
+	// cleanup
+	lua_settop(this->thread, bf);
+}
+
+void LuaTable::move_down(int index)
+{
+	// for cleanup
+	int bf = lua_gettop(this->thread);
+
+	// cleanup
+	lua_settop(this->thread, bf);
+}
+

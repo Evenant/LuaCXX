@@ -41,6 +41,18 @@ LuaRef::~LuaRef()
 
 }
 
+bool LuaRef::push_self()
+{
+	if (key)
+	{
+		lua_pushlightuserdata(this->thread, this->key);
+		lua_gettable(this->thread, LUA_REGISTRYINDEX);
+
+		return true;
+	}
+	return false;
+}
+
 void LuaRef::move_into(lua_State *into)
 {
 	if (key) // If the value of this reference is on the Lua registry
