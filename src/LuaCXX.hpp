@@ -53,7 +53,7 @@
 
 	Should reset back to 1 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 1
+#define LUACXX_VER_SUBPATCH 2
 
 
 extern "C"
@@ -197,10 +197,6 @@ namespace LuaCXX
 		LuaType get_type(GetSymbol value);
 
 		/*
-			Push and Pop operations, as if this table were an array.
-		*/
-
-		/*
 			Push `value` into `index`.
 			Moves elements in and above `index` upwards.
 		*/
@@ -208,8 +204,8 @@ namespace LuaCXX
 		void push(Value value, int index);
 
 		/*
-			Pop `value` from `index` and returns it.
-			Moves elements above `index` downwards.
+			Pop a value from `index` and returns it.
+			Moves elements above `index` downwards to fill the gap.
 		*/
 		template <class Value>
 		Value pop(int index);
