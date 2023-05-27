@@ -1,6 +1,7 @@
 #include "../../src/LuaCXX.hpp"
 #include "../testing.hpp"
 #include <iostream>
+#include <cstring>
 
 int main()
 {
@@ -18,17 +19,17 @@ int main()
 		{
 			LuaTable carwheels_table = luat.new_table();
 
-			const char * Wheel1_k = "Wheel1";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel1_k);
+			const char * Wheel1_v = "Wheel";
+			carwheels_table.set(carwheels_table.get_top()+1, Wheel1_v);
 
-			const char * Wheel2_k = "Wheel2";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel2_k);
+			const char * Wheel2_v = "Wheel";
+			carwheels_table.set(carwheels_table.get_top()+1, Wheel2_v);
 
-			const char * Wheel3_k = "Wheel3";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel3_k);
+			const char * Wheel3_v = "Wheel";
+			carwheels_table.set(carwheels_table.get_top()+1, Wheel3_v);
 
-			const char * Wheel4_k = "Wheel4";
-			carwheels_table.set(carwheels_table.get_top()+1, Wheel4_k);
+			const char * Wheel4_v = "Wheel";
+			carwheels_table.set(carwheels_table.get_top()+1, Wheel4_v);
 
 			car_table.set(carwheels_table_k, carwheels_table);
 		}
@@ -40,12 +41,15 @@ int main()
 
 		LuaTable carwheels_table = car_table.get<LuaTable>(carwheels_table_k);
 
+		int wheel_count = 0;
+
 		for (int i = 1;i <= carwheels_table.get_top();i++)
 		{
-			std::cout << carwheels_table.get<const char*>(i) << std::endl;
+			wheel_count++;
+			ASSERT((strcmp(carwheels_table.get<const char*>(i), "Wheel")), "There is a wheel that is NOT a wheel.");
 		}
-
-		std::cout << "this car goes at " << car_table.get<double>("km_h") << " kilometers per hour." << std::endl;
+		ASSERT(!(wheel_count < 4), "This car does not have enough wheels.");
+		ASSERT(!(wheel_count > 4), "This car has too much wheels.");
 
 		ASSERT((!car_table.get<bool>("has_driver")), "HEY THERE IS A THIEF IN THE CAR!");
 	}
