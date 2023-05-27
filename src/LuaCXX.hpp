@@ -46,7 +46,7 @@
 
 	Should reset back to 1 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 10
+#define LUACXX_VER_PATCH 11
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
