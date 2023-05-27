@@ -103,7 +103,7 @@
 	std::cout << TEST_SUCCESS << "Test " << TEST_NUMBER << "/" << TEST_NUMBER_OUT_OF << " ran Successfully" << CRESET << std::endl << std::endl; \
 	return 0;
 
-#define LuaTable_TESTS 3
+#define LuaTable_TESTS 4
 
 
 

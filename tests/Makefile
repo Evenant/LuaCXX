@@ -6,17 +6,20 @@ TESTING_HEADER=testing.hpp
 EXECUTABLES= \
 	setget/main \
 	setget_table/main \
-	setget_nilify/main
+	setget_nilify/main \
+	pushpop/main
 
 OBJECTS= \
 	setget/main.o \
 	setget_table/main.o \
-	setget_nilify/main.o
+	setget_nilify/main.o \
+	pushpop/main.o
 
 TESTS= \
 	setget \
 	setget_table \
-	setget_nilify
+	setget_nilify \
+	pushpop \
 
 default: ${TESTS}
 	@echo 
@@ -30,6 +33,8 @@ setget: setget/main
 setget_table: setget_table/main
 
 setget_nilify: setget_nilify/main
+
+pushpop: pushpop/main
 
 clean:
 	rm -f ${OBJECTS}
@@ -54,6 +59,11 @@ setget_nilify/main: setget_nilify/main.o
 	${cxx_e}
 
 setget_nilify/main.o: setget_nilify/main.cpp ${TESTING_HEADER}
+
+pushpop/main: pushpop/main.o
+	${cxx_e}
+pushpop/main.o: pushpop/main.cpp ${TESTING_HEADER}
+	${cxx_o}
 
 define cxx_o
 	${CXX} -o $@ $< ${CXXFLAGS} -c
