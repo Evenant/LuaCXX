@@ -8,7 +8,7 @@ int main()
 	using namespace LuaCXX;
 	using namespace std;
 
-	TEST_START(2, 2, "Setting and Getting Tables.");
+	TEST_START(2, LuaTable_TESTS, "Setting and Getting Tables.");
 
 	{
 		LuaThread luat = LuaThread(L);
@@ -42,12 +42,12 @@ int main()
 		{
 			wheel_count++;
 			const char* w = carwheels_table.get<const char*>(i);
-			ASSERT((strcmp(w, real_wheel)==0), "There is a wheel that is NOT a wheel.");
+			ASSERT((strcmp(w, real_wheel)==0), 45, "There is a wheel that is NOT a wheel.");
 		}
-		ASSERT(!(wheel_count < 4), "This car does not have enough wheels.");
-		ASSERT(!(wheel_count > 4), "This car has too much wheels.");
+		ASSERT(!(wheel_count < 4), 47, "This car does not have enough wheels.");
+		ASSERT(!(wheel_count > 4), 48,"This car has too much wheels.");
 
-		ASSERT((!car_table.get<bool>("has_driver")), "HEY THERE IS A THIEF IN THE CAR!");
+		ASSERT((!car_table.get<bool>("has_driver")), 50, "HEY THERE IS A THIEF IN THE CAR!");
 	}
 
 	TEST_END;

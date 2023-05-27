@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
 	using namespace LuaCXX;
 	using namespace std;
-	TEST_START(1, 2, "SetGet Global Table");
+	TEST_START(1, LuaTable_TESTS, "SetGet Global Table");
 
 	{
 		LuaThread luat = LuaThread(L);
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 		gtable.set(keynum, gt_than_5);
 		double vn = gtable.get<double>(keynum);
 
-		ASSERT((vn > 5), "The Lua global table key \"" << keynum << "\" is not greater than 5.");
+		ASSERT((vn > 5), 30, "The Lua global table key \"" << keynum << "\" is not greater than 5.");
 		
 		// Boolean
 		constexpr const char* keybool = "should_be_true";
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 		gtable.set(keybool, shld_be_true);
 		bool vb = gtable.get<bool>(keybool);
 
-		ASSERT((vb == true), "The Lua global table key \"" << keybool << "\" is not true.");
+		ASSERT((vb == true), 39, "The Lua global table key \"" << keybool << "\" is not true.");
 
 		// String
 		constexpr const char* keystring = "carcolor";
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 		gtable.set(keystring, curr_carcolor);
 		const char* vs = gtable.get<const char*>(keystring);
 
-		ASSERT((strcmp(vs, wanted_carcolor)), "I WANTED A \"" << wanted_carcolor << "\" CAR MOM! NOT A \"" << vs << "\"");
+		ASSERT((strcmp(vs, wanted_carcolor)), 49, "I WANTED A \"" << wanted_carcolor << "\" CAR MOM! NOT A \"" << vs << "\"");
 
 	}
 
