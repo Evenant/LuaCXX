@@ -46,7 +46,7 @@
 
 	Should reset back to 0 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 0
+#define LUACXX_VER_PATCH 1
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
@@ -116,7 +116,7 @@ namespace LuaCXX
 			Push this reference's value onto the stack, returns false if this is actually a reference to a value that
 			already exists on the stack.
 		*/
-		bool push_self();
+		bool push_self() const;
 
 		/*
 			The Lua thread that will be used by this reference for operations.
@@ -183,13 +183,13 @@ namespace LuaCXX
 			Get a value
 		*/
 		template<class GetValue, class GetSymbol>
-		GetValue get(GetSymbol symbol);
+		GetValue get(GetSymbol symbol) const;
 
 		/*
 			Get the type of the value
 		*/
 		template<class GetSymbol>
-		LuaType get_type(GetSymbol value);
+		LuaType get_type(GetSymbol value) const;
 
 		/*
 			Push `value` into `index`.

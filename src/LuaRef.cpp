@@ -41,7 +41,7 @@ LuaRef::~LuaRef()
 
 }
 
-bool LuaRef::push_self()
+bool LuaRef::push_self() const
 {
 	if (key)
 	{

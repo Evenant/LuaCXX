@@ -3,7 +3,7 @@
 using namespace LuaCXX;
 
 template <>
-const char* LuaTable::get(const char* field)
+const char* LuaTable::get(const char* field) const
 {
 	// for cleanup
 	const int bf = lua_gettop(this->thread);
@@ -33,7 +33,7 @@ const char* LuaTable::get(const char* field)
 }
 
 template <>
-const char* LuaTable::get(int index)
+const char* LuaTable::get(int index) const
 {
 	// for cleanup
 	const int bf = lua_gettop(this->thread);

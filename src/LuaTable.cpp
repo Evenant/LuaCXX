@@ -143,7 +143,7 @@ static LuaType _get_type(lua_State* L)
 }
 
 template<>
-LuaType LuaTable::get_type(const char* field)
+LuaType LuaTable::get_type(const char* field) const
 {
 	// for cleanup
 	int bf = lua_gettop(this->thread);
@@ -173,7 +173,7 @@ LuaType LuaTable::get_type(const char* field)
 }
 
 template<>
-LuaType LuaTable::get_type(int index)
+LuaType LuaTable::get_type(int index) const
 {
 	// for cleanup
 	int bf = lua_gettop(this->thread);
