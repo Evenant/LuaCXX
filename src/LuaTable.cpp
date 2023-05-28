@@ -24,7 +24,7 @@ LuaTable::LuaTable(lua_State* thread, int position) : LuaRef(thread, position)
 	// Just a handle to the other LuaRef constructor.
 }
 
-int LuaTable::get_top()
+int LuaTable::get_top() const
 {
 	int bf = lua_gettop(this->thread);
 
@@ -42,7 +42,7 @@ int LuaTable::get_top()
 	return l;
 }
 
-std::vector<const char*> LuaTable::get_all_fields()
+std::vector<const char*> LuaTable::get_all_fields() const
 {
 	int bf = lua_gettop(this->thread);
 

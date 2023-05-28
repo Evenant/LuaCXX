@@ -46,7 +46,7 @@
 
 	Should reset back to 0 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 1
+#define LUACXX_VER_PATCH 2
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
@@ -225,12 +225,12 @@ namespace LuaCXX
 			Get the top of this table ( or its length ),
 			take this and add 1 to get the next index to add a value to via `LuaTable::set`
 		*/
-		int get_top();
+		int get_top() const;
 
 		/*
 			Get all the fields of this table.
 		*/
-		std::vector<const char*> get_all_fields();
+		std::vector<const char*> get_all_fields() const;
 
 		/*
 			Sets this table to the table on index -1;
