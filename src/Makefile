@@ -74,7 +74,7 @@ LUA_HEADERS= \
 	${INCLUA}/lualib.h \
 	${INCLUA}/lauxlib.h
 
-${OUTPUT}: ${OBJECTS} ${LUA_HEADERS} *.cpp
+${OUTPUT}: ${OBJECTS} ${LUA_HEADERS}
 	${AR} -rc ${OUTPUT} ${OBJECTS}
 
 
