@@ -31,7 +31,7 @@
 
 	Should reset back to 0 when LUACXX_VER_MAJOR changes.
 */
-#define LUACXX_VER_MINOR 1
+#define LUACXX_VER_MINOR 2
 
 /*
 	This should be increased every time LuaCXX is changed in a way that might change how it works ( also known as a "patch" ).
@@ -46,14 +46,14 @@
 
 	Should reset back to 0 when LUACXX_VER_MINOR changes.
 */
-#define LUACXX_VER_PATCH 13
+#define LUACXX_VER_PATCH 0
 
 /*
 	Anything changing in the LuaCXX repository should increase this value.
 
 	Should reset back to 0 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 7
+#define LUACXX_VER_SUBPATCH 0
 
 
 extern "C"
