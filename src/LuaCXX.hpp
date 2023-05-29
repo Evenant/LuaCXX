@@ -53,7 +53,7 @@
 
 	Should reset back to 0 when LUACXX_VER_PATCH changes.
 */
-#define LUACXX_VER_SUBPATCH 0
+#define LUACXX_VER_SUBPATCH 1
 
 
 extern "C"
@@ -82,6 +82,11 @@ namespace LuaCXX
 		Reference to a Lua thread.
 	*/
 	typedef class LuaThread LuaThread;
+
+	/*
+		Reference to a Lua function.
+	*/
+	typedef class LuaFunction LuaFunction;
 
 	/*
 		Types of Lua values
@@ -168,6 +173,7 @@ namespace LuaCXX
 	{
 		public:
 		friend LuaThread;
+		friend LuaFunction;
 
 		/*
 			Set a value
@@ -244,8 +250,39 @@ namespace LuaCXX
 		);
 
 		LuaTable(lua_State* th);
-		
-		
+	};
+
+	class LuaFunction : public LuaRef
+	{
+		public:
+
+		LuaFunction(lua_State* th, int existing_func);
+
+		/*
+			Call this function.
+		*/
+		LuaTable call(const LuaTable& arguments);
+
+		/*
+			Iterate through a table as an array, from bottom to the top, 
+			pushing each value onto the Lua stack, and then returning how many values
+			it pushed onto the stack.
+
+			This is meant to be used in the `return` statement of a CFunction to symbolize how many values
+			have been returned, or to insert arguments into the stack.
+		*/
+		static int dump_table_elements(lua_State* th, const LuaTable& table);
+
+		/*
+			takes the values currently on the Lua stack and 
+			pushes them into a table.
+		*/
+		static const LuaTable collect_stack(lua_State* th);
+
+		protected:
+		LuaFunction(lua_State* th, lua_CFunction func);
+
+
 
 	};
 
